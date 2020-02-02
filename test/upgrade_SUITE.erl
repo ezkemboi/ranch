@@ -94,13 +94,14 @@ upgrade_ranch_one_conn(Config) ->
 		%% @todo Set PROJECT_VERSION to ranch_next if using a commit.
 		do_use_ranch_commit(Example, "master"),
 		do_build_relup(Example),
-		do_upgrade(Example)
+		do_upgrade(Example),
 		%% @todo Check the Ranch version.
 		%% @todo Check that our connection is still up.
 		%% @todo Check that new connections still work.
-		%% @todo Maybe downgrade too? Yup.
+		do_downgrade(Example),
 		%% @todo Check that our connection is still up.
 		%% @todo Check that new connections still work.
+		ok
 	after
 		do_stop(tcp_echo)
 	end.
@@ -154,4 +155,8 @@ do_upgrade(Example) ->
 			++ "_example/" ++ ExampleStr ++ "_example-2.tar.gz "
 		++ Dir ++ "/_rel/" ++ ExampleStr
 			++ "_example/releases/2/" ++ ExampleStr ++ "_example.tar.gz")]),
-	ct:log("~s~n", [os:cmd(Rel ++ " upgrade --no-permanent \"2\"")]).
+	ct:log("~s~n", [os:cmd(Rel ++ " upgrade \"2\"")]).
+
+do_downgrade(Example) ->
+	{_, Rel, _} = do_get_paths(Example),
+	ct:log("~s~n", [os:cmd(Rel ++ " downgrade \"1\"")]).
