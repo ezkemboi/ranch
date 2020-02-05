@@ -83,7 +83,7 @@ do_use_ranch_previous(Example) ->
 	TagsOutput = os:cmd("git tag | tr - \~ | sort -V | tr \~ -"),
 	ct:log("~s~n", [TagsOutput]),
 	Tags = string:lexemes(TagsOutput, "\n"),
-	DescribeOutput = os:cmd("git describe --exact-match"),
+	DescribeOutput = os:cmd("LC_ALL=C git describe --exact-match"),
 	ct:log("~s~n", [DescribeOutput]),
 	{CommitOrTag, Prev} = case DescribeOutput of
 		"fatal: no tag exactly matches " ++ _ -> {commit, hd(lists:reverse(Tags))};
