@@ -80,7 +80,7 @@ do_stop(Example) ->
 %% we use the tag before that as a starting point. Otherwise
 %% we use the most recent tag.
 do_use_ranch_previous(Example) ->
-	TagsOutput = os:cmd("git tag | tr - \~ | sort -V | tr \~ -"),
+	TagsOutput = os:cmd("git tag | tr - \\~ | sort -V | tr \\~ -"),
 	ct:log("~s~n", [TagsOutput]),
 	Tags = string:lexemes(TagsOutput, "\n"),
 	DescribeOutput = os:cmd("LC_ALL=C git describe --exact-match"),
