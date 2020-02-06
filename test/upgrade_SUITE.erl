@@ -172,13 +172,13 @@ upgrade_ranch_one_conn(Config) ->
 		ok = gen_tcp:send(S, "Hello!"),
 		{ok, <<"Hello!">>} = gen_tcp:recv(S, 0, 1000),
 		%% Check that new connections are still accepted.
-		{ok, S} = gen_tcp:connect("localhost", Port, [{active, false}, binary]),
+		{ok, _} = gen_tcp:connect("localhost", Port, [{active, false}, binary]),
 		%% Perform the downgrade, then check that our connection is still up.
 		do_downgrade(Example),
 		ok = gen_tcp:send(S, "Hello!"),
 		{ok, <<"Hello!">>} = gen_tcp:recv(S, 0, 1000),
 		%% Check that new connections are still accepted.
-		{ok, S} = gen_tcp:connect("localhost", Port, [{active, false}, binary]),
+		{ok, _} = gen_tcp:connect("localhost", Port, [{active, false}, binary]),
 		ok
 	after
 		do_stop(tcp_echo)
